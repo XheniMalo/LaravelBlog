@@ -1,0 +1,26 @@
+[90m= [39m[34;4mApp\Models\Post[39;24m {#5234
+    [34mid[39m: [35m9[39m,
+    [34mtitle[39m: "[32mtest[39m",
+    [34mdescription[39m: "[32mtest[39m",
+    [34mcreated_at[39m: "[32m2025-02-17 11:28:40[39m",
+    [34mupdated_at[39m: "[32m2025-02-17 11:28:40[39m",
+    [34mimages[39m: [34;4mIlluminate\Database\Eloquent\Collection[39;24m {#5219
+      [34mall[39m: [
+        [34;4mApp\Models\PostImage[39;24m {#6221
+          [34mid[39m: [35m2[39m,
+          [34mpost_id[39m: [35m9[39m,
+          [34mimage_path[39m: "[32mposts/IXmsCvJN8o0MvM4xLAwdfZzf4KYmEbqgEhA6rwwz.jpg[39m",
+          [34mcreated_at[39m: "[32m2025-02-17 11:28:40[39m",
+          [34mupdated_at[39m: "[32m2025-02-17 11:28:40[39m",
+        },
+        [34;4mApp\Models\PostImage[39;24m {#6222
+          [34mid[39m: [35m3[39m,
+          [34mpost_id[39m: [35m9[39m,
+          [34mimage_path[39m: "[32mposts/O6L7BpIa9S2AmRhj6YmuiTHiWMn1SMKtFAqJkr4g.jpg[39m",
+          [34mcreated_at[39m: "[32m2025-02-17 11:28:40[39m",
+          [34mupdated_at[39m: "[32m2025-02-17 11:28:40[39m",
+        },
+      ],
+    },
+  }
+
