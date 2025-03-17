@@ -47,7 +47,9 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'post_id', 'post_id')->whereNull('parent_id')->latest();
+        return $this->hasMany(Comment::class, 'post_id', 'post_id')->whereNull('parent_id')->with(['user', 'replies' => function($query) {
+            $query->with(['user', 'post']);
+        }])->latest();
     }
 
     public function likes()
@@ -55,12 +57,11 @@ class Post extends Model
         return $this->belongsToMany(User::class, 'posts_likes', 'post_id', 'user_id');
     }
 
-    public function isLikedByUser($user = null)
+    public function isLikedByUser()
     {
+        return $this->likes()->where('user_id', Auth::id())->exists();
      
-        $userId = $user ? $user->id : Auth::id();
 
-        return $this->likes()->where('user_id', $userId)->exists();
     }
 
     public function likesCount()

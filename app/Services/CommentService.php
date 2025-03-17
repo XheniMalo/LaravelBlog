@@ -4,7 +4,11 @@ namespace App\Services;
 
 use App\Models\Comment;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\CommentNotification;
+use App\Events\CommentCreated;
+use Illuminate\Support\Facades\Log;
 
 class CommentService
 {
@@ -20,6 +24,8 @@ class CommentService
             'body' => $data['body'],
             'parent_id' => $data['parent_id'] ?? null,
          ]);
+
+         event(new CommentCreated($comment));
 
          return $comment;
     }

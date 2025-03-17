@@ -58,8 +58,6 @@ Route::middleware('auth.custom')->group(function () {
 
     Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
 
-    Route::get('/admin/post/{post}/likes', [LikeController::class, 'getLikes']);
-Route::get('/admin/post/{post}/comments', [LikeController::class, 'getComments']);
 
 });
 

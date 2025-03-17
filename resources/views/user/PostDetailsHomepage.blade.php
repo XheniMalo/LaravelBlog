@@ -35,8 +35,6 @@
                     <span>{{ $post->likesCount() }} likes</span>
                 </div>
 
-
-
                 <div class="card shadow mt-4">
                     <div class="card-header bg-light">
                         <h4>Comments ({{ $post->comments->count() }})</h4>

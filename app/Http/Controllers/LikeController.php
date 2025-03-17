@@ -11,7 +11,6 @@ class LikeController extends Controller
     public function toggleLike(Post $post)
     {
         $user = Auth::user();
-
         $isLiked = $post->likes()->where('user_id', $user->id)->exists();
 
         if ($isLiked) {
@@ -22,22 +21,5 @@ class LikeController extends Controller
 
         return redirect()->back();
     }
-
-
-    public function getLikes(Post $post)
-    {
-        return response()->json([
-            'likes' => $post->likes()->with('user')->get()
-        ]);
-    }
-
-    public function getComments(Post $post)
-    {
-        return response()->json([
-            'comments' => $post->comments()->with('user')->get()
-        ]);
-    }
-
-
 }
 
