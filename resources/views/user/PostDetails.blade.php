@@ -46,15 +46,17 @@
                 </div>
 
             </form>
+            
+            <span>{{ $post->likesCount() }} likes</span>
 
             <div class="comments-section mt-4">
             <h4>Comments ({{ $post->comments->count() }})</h4>
                 <div class="comments-list">
-                    @include('comments.comments_list', ['comments' => $post->topLevelComments])
+                    @include('comments.comments_list', ['comments' => $post->comments])
                 </div>
             </div>
-
-
         </div>
     </div>
+
+
 @endsection

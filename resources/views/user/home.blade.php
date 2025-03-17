@@ -24,10 +24,15 @@
                                     View More <i class="fas fa-angle-right"></i>
                                 </a>
 
+
                                 <span class="text-muted">
+                                    <i class="fas fa-heart"></i>
+                                    {{ $post->likesCount() }}
+                                    
                                     <i class="fas fa-comment"></i>
                                     {{ $post->comments->count()}}
                                 </span>
+
                             </div>
                         </div>
                     </div>

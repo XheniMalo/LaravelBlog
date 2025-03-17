@@ -18,7 +18,7 @@ class AdminPostsController extends Controller
 
     public function index()
     {
-        $posts = Post::with('user','images')->get();
+        $posts = Post::with('user', 'images', 'likes', 'comments')->get();
         return view('admin.posts', compact('posts'));
     }
 
@@ -49,4 +49,5 @@ class AdminPostsController extends Controller
 
         return back()->with('success', 'Image deleted successfully.');
     }
+
 }

@@ -22,9 +22,24 @@
                 @endif
 
                 <p class="mt-3">{{ $post->content }}</p>
+
+                <div class="d-flex align-items-center mt-3 mb-3">
+                    <form action="{{ route('posts.like', $post->post_id) }}" method="POST" class="me-2">
+                        @csrf
+                        <button type="submit"
+                            class="btn {{ $post->isLikedByUser() ? 'btn-danger' : 'btn-outline-danger' }}">
+                            <i class="fas fa-heart"></i>
+                            {{ $post->isLikedByUser() ? 'Unlike' : 'Like' }}
+                        </button>
+                    </form>
+                    <span>{{ $post->likesCount() }} likes</span>
+                </div>
+
+
+
                 <div class="card shadow mt-4">
                     <div class="card-header bg-light">
-                    <h4>Comments ({{ $post->comments->count() }})</h4>
+                        <h4>Comments ({{ $post->comments->count() }})</h4>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('comments.store') }}" method="POST">
@@ -38,7 +53,7 @@
                         </form>
 
                         <div class="comments-list mt-4">
-                            @include('comments.comments_list', ['comments' => $post->topLevelComments])
+                            @include('comments.comments_list', ['comments' => $post->comments])
                         </div>
                     </div>
                 </div>

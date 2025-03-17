@@ -10,6 +10,7 @@ use App\Http\Controllers\UserPostController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 
 
 Route::get('/', function () {
@@ -54,6 +55,11 @@ Route::middleware('auth.custom')->group(function () {
     Route::post('/comments/{comment}/reply', [CommentController::class, 'reply'])->name('comments.reply');
     Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
+
+    Route::get('/admin/post/{post}/likes', [LikeController::class, 'getLikes']);
+Route::get('/admin/post/{post}/comments', [LikeController::class, 'getComments']);
 
 });
 

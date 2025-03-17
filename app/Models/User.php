@@ -76,6 +76,11 @@ class User extends Authenticatable implements CanResetPasswordContract
         return $this->hasMany(Comment::class, 'user_id', 'id');
     }
 
+    public function likes()
+    {
+        return $this->belongsToMany(Post::class, 'posts_likes', 'user_id', 'post_id');
+    }
+
     public function hasRole($roleName)
     {
         return $this->role && $this->role->name === $roleName;
