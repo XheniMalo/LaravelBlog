@@ -18,7 +18,10 @@ class AdminPostsController extends Controller
 
     public function index()
     {
-        $posts = Post::with('user', 'images', 'likes', 'comments')->get();
+        $posts = Post::with(['user', 'likes', 'comments' => function($query) {
+            $query->with(['user', 'replies.user', 'replies.replies']);
+        }])->get();
+
         return view('admin.posts', compact('posts'));
     }
 

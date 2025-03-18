@@ -12,17 +12,12 @@ class SendCommentNotification implements ShouldQueue
 {
     use InteractsWithQueue;
 
-    public function __construct()
-{
-    Log::info('SendCommentNotification listener instantiated');
-}
-
     public function handle(CommentCreated $event): void
     {
-     $comment = $event->comment;
+        $comment = $event->comment;
         $post = $comment->post;
         $user = $post->user;
-        
+
 
         if ($comment->user_id !== $user->id) {
             $user->notify(new CommentNotification($comment, $post));

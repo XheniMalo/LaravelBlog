@@ -12,7 +12,6 @@
                         Reply
                     </button>
                     
-
                     @if(auth()->id() == $comment->user_id || auth()->id() == $comment->post->user_id)
                         <button class="btn btn-sm btn-light edit-comment-btn" data-comment-id="{{ $comment->id }}"
                             data-comment-body="{{ $comment->body }}">
@@ -56,7 +55,7 @@
                         </form>
                     </div>
 
-                    @if($comment->replies->count() > 0)
+                    @if($comment->replies && $comment->replies->isNotEmpty())
                         <div class="replies mt-3 ms-4">
                             @include('comments.comments_list', ['comments' => $comment->replies])
                         </div>

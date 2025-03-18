@@ -43,11 +43,12 @@
                                 <tr>
                                     <td>{{ $post->title }}</td>
                                     <td>{{ Str::limit($post->content, 100) }}</td>
-                                    <td>@if ($post->user)
-                                        {{ $post->user->name }}
-                                    @else
-                                        <em>No user assigned</em>
-                                    @endif
+                                    <td>
+                                        @if ($post->user)
+                                            {{ $post->user->name }}
+                                        @else
+                                            <em>No user assigned</em>
+                                        @endif
                                     </td>
                                     <td>
                                         <a href="{{ route('post.edit', $post->post_id) }}" class="btn btn-sm btn-primary">
@@ -55,11 +56,15 @@
                                         </a>
                                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#likesModal-{{ $post->post_id }}">
-                                            <i class="fas fa-heart"></i> Show likes
+                                            <i class="fas fa-heart"></i> Likes
+                                            <span
+                                                class="badge bg-light text-dark rounded-pill ms-1">{{ $post->likes->count() }}</span>
                                         </button>
                                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#commentsModal-{{ $post->post_id }}">
-                                            <i class="fas fa-comment"></i> Show comments
+                                            <i class="fas fa-comment"></i> Comments
+                                            <span
+                                                class="badge bg-light text-dark rounded-pill ms-1">{{ $post->comments->count() }}</span>
                                         </button>
                                         <button class="btn btn-sm btn-danger deleteBtn" data-id="{{ $post->post_id }}"
                                             data-bs-toggle="modal" data-bs-target="#deleteModal">
@@ -67,6 +72,79 @@
                                         </button>
                                     </td>
                                 </tr>
+
+                                <div class="modal fade" id="likesModal-{{ $post->post_id }}" tabindex="-1"
+                                    aria-labelledby="likesModalLabel-{{ $post->post_id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Users who liked "{{ $post->title }}"
+                                                    ({{ $post->likes->count() }})</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @if($post->likes->count() > 0)
+                                                    <ul class="list-group">
+                                                        @foreach ($post->likes as $index => $user)
+                                                            <li class="list-group-item d-flex">
+                                                                <span
+                                                                    class="badge bg-primary rounded-pill me-2">{{ $index + 1 }}</span>
+                                                                {{ $user->name }}
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    <p>No likes yet.</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="modal fade" id="commentsModal-{{ $post->post_id }}" tabindex="-1"
+                                    aria-labelledby="commentsModalLabel-{{ $post->post_id }}" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Comments for "{{ $post->title }}"
+                                                    ({{ $post->comments->count() }})</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @if($post->comments->count() > 0)
+                                                    <ul class="list-group comment-list-{{ $post->post_id }}">
+                                                        @foreach ($post->comments as $index => $comment)
+                                                            <li class="list-group-item" id="comment-{{ $comment->id }}">
+                                                                <div class="d-flex align-items-center justify-content-between">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <span
+                                                                            class="badge bg-primary rounded-pill me-2">{{ $index + 1 }}</span>
+                                                                        <strong>{{ $comment->user ? $comment->user->name : 'Unknown User' }}</strong>
+                                                                    </div>
+                                                                    <button class="btn btn-sm btn-danger delete-comment-btn"
+                                                                        data-comment-id="{{ $comment->id }}"
+                                                                        data-post-id="{{ $post->post_id }}">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <p class="mt-1 ms-4">{{ $comment->body }}</p>
+
+                                                                @if(isset($comment->replies) && $comment->replies->count() > 0)
+                                                                    @include('comments.comments_replies', ['replies' => $comment->replies, 'parentId' => $comment->id, 'postId' => $post->post_id])
+                                                                @endif
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    <p>No comments yet.</p>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         </tbody>
                     </table>
@@ -75,62 +153,62 @@
         </div>
     </div>
 </div>
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this post?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="modal fade" id="likesModal-{{ $post->post_id }}" tabindex="-1" aria-labelledby="likesModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Users who liked this post</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        @foreach ($post->likes as $like)
-                            <li>{{ $like->user ? $like->user->name : 'Unknown User' }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this post?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="commentsModal-{{ $post->post_id }}" tabindex="-1" aria-labelledby="commentsModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Comments</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        @foreach ($post->comments as $comment)
-                            <li><strong>{{ $comment->user ? $comment->user->name : 'Unknown User' }}:</strong>
-                                {{ $comment->content }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+<div class="modal fade" id="deleteCommentModal" tabindex="-1" aria-labelledby="deleteCommentModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCommentModalLabel">Confirm Comment Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this comment?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteComment">Delete</button>
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="deleteReplyModal" tabindex="-1" aria-labelledby="deleteReplyModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteReplyModalLabel">Confirm Reply Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this reply?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteReply">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
 @stop
 
 @section('js')
@@ -138,58 +216,127 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    $(document).ready(function () {
-        $('.showLikesBtn').click(function () {
-            let postId = $(this).data('id');
+$(document).ready(function () {
+    let postIdToDelete;
+    let commentIdToDelete;
+    let replyIdToDelete;
+    let postIdOfComment;
+    let parentCommentId;
 
-            $.ajax({
-                url: `/admin/post/${postId}/likes`,
-                type: 'GET',
-                success: function (response) {
-                    let likesList = $('#likesList');
-                    likesList.empty();
+    $('.deleteBtn').click(function () {
+        postIdToDelete = $(this).data('id');
+    });
 
-                    if (response.likes.length > 0) {
-                        response.likes.forEach(like => {
-                            likesList.append(`<li>${like.user ? like.user.name : 'Unknown User'}</li>`);
-                        });
-                    } else {
-                        likesList.append('<li>No likes yet.</li>');
-                    }
+    $('#confirmDelete').click(function () {
+        $.ajax({
+            url: `/admin/post/${postIdToDelete}`,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                $('#deleteModal').modal('hide');
+                $('#toastMessage').text('Post deleted successfully!');
+                const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                toast.show();
 
-                    $('#likesModal').modal('show');
-                },
-                error: function () {
-                    alert('Error fetching likes.');
-                }
-            });
-        });
-
-        $('.showCommentsBtn').click(function () {
-            let postId = $(this).data('id');
-
-            $.ajax({
-                url: `/admin/post/${postId}/comments`,
-                type: 'GET',
-                success: function (response) {
-                    let commentsList = $('#commentsList');
-                    commentsList.empty();
-
-                    if (response.comments.length > 0) {
-                        response.comments.forEach(comment => {
-                            commentsList.append(`<li><strong>${comment.user ? comment.user.name : 'Unknown User'}:</strong> ${comment.content}</li>`);
-                        });
-                    } else {
-                        commentsList.append('<li>No comments yet.</li>');
-                    }
-
-                    $('#commentsModal').modal('show');
-                },
-                error: function () {
-                    alert('Error fetching comments.');
-                }
-            });
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1500);
+            },
+            error: function () {
+                alert('Error deleting post.');
+                $('#deleteModal').modal('hide');
+            }
         });
     });
+
+    $(document).on('click', '.delete-comment-btn', function () {
+        commentIdToDelete = $(this).data('comment-id');
+        postIdOfComment = $(this).data('post-id');
+        $('#deleteCommentModal').modal('show');
+    });
+
+    $('#confirmDeleteComment').click(function () {
+        $.ajax({
+            url: `/admin/comment/${commentIdToDelete}`,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                $('#deleteCommentModal').modal('hide');
+                $('#toastMessage').text('Comment deleted successfully!');
+                const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                toast.show();
+
+                const commentCountElement = $(`button[data-bs-target="#commentsModal-${postIdOfComment}"] .badge`);
+                const currentCount = parseInt(commentCountElement.text());
+                commentCountElement.text(currentCount - 1);
+
+                $(`#comment-${commentIdToDelete}`).remove();
+
+                $(`#commentsModal-${postIdOfComment} .comment-list-${postIdOfComment} > li`).each(function (index) {
+                    $(this).find('.badge').first().text(index + 1);
+                });
+
+                if ($(`#commentsModal-${postIdOfComment} .comment-list-${postIdOfComment} > li`).length === 0) {
+                    $(`#commentsModal-${postIdOfComment} .modal-body`).html('<p>No comments yet.</p>');
+                }
+            },
+            error: function () {
+                alert('Error deleting comment.');
+                $('#deleteCommentModal').modal('hide');
+            }
+        });
+    });
+
+    $(document).on('click', '.delete-reply-btn', function () {
+        replyIdToDelete = $(this).data('reply-id');
+        parentCommentId = $(this).data('comment-id');
+        postIdOfComment = $(this).data('post-id');
+        $('#deleteReplyModal').modal('show');
+    });
+
+    $('#confirmDeleteReply').click(function () {
+        $.ajax({
+            url: `/admin/reply/${replyIdToDelete}`,
+            type: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                $('#deleteReplyModal').modal('hide');
+                $('#toastMessage').text('Reply deleted successfully!');
+                const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                toast.show();
+
+                $(`#reply-${replyIdToDelete}`).remove();
+
+                $(`.reply-list-${parentCommentId} > li`).each(function (index) {
+                    $(this).find('.badge').first().text(index + 1);
+                });
+
+                const replyCountElement = $(`.comment-replies:has(.reply-list-${parentCommentId}) h6`);
+                if (replyCountElement.length > 0) {
+                    const currentReplies = $(`.reply-list-${parentCommentId} > li`).length;
+                    if (currentReplies > 0) {
+                        replyCountElement.html(`<i class="fas fa-reply"></i> Replies (${currentReplies})`);
+                    } else {
+                        $(`.comment-replies:has(.reply-list-${parentCommentId})`).remove();
+                    }
+                }
+
+                const commentCountElement = $(`button[data-bs-target="#commentsModal-${postIdOfComment}"] .badge`);
+                const currentCount = parseInt(commentCountElement.text());
+                commentCountElement.text(currentCount - 1);
+            },
+            error: function () {
+                alert('Error deleting reply.');
+                $('#deleteReplyModal').modal('hide');
+            }
+        });
+    });
+});
 </script>
 @stop

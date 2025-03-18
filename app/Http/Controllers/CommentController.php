@@ -26,7 +26,7 @@ class CommentController extends Controller
 
     public function reply(CommentRequest $request)
     {
-       $validated = $request->validated();
+        $validated = $request->validated();
 
         $reply = $this->commentService->createReply($validated);
 
@@ -36,7 +36,7 @@ class CommentController extends Controller
     public function update(Comment $comment, CommentRequest $request)
     {
 
-        $this->commentService->updateComment($comment,$request->validated());
+        $this->commentService->updateComment($comment, $request->validated());
 
         return redirect()->back()->with('success', 'Comment updated successfully');
     }
@@ -44,7 +44,15 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->delete();
-       
+
         return redirect()->back()->with('success', 'Comment deleted successfully');
+    }
+
+    public function delete($id)
+    {
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+
+        return response()->json(['success' => true]);
     }
 }

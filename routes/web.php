@@ -56,6 +56,8 @@ Route::middleware('auth.custom')->group(function () {
     Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
+    Route::delete('/admin/reply/{id}', [CommentController::class, 'delete'])->name('comment.delete');
+
     Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
 
 
