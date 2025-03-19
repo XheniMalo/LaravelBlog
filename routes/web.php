@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\AdminCommentsController;
 
 
 Route::get('/', function () {
@@ -56,9 +57,9 @@ Route::middleware('auth.custom')->group(function () {
     Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
-    Route::delete('/admin/reply/{id}', [CommentController::class, 'delete'])->name('comment.delete');
-
     Route::post('/posts/{post}/like', [LikeController::class, 'toggleLike'])->name('posts.like');
+    Route::delete('/admin/comment/{comment}', [AdminCommentsController::class, 'destroyComment'])->name('comment.destroy');
+    Route::delete('/admin/reply/{comment}', [AdminCommentsController::class, 'destroyReply'])->name('reply.destroy');
 
 
 });
