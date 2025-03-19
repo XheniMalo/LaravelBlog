@@ -24,15 +24,7 @@
                 <p class="mt-3">{{ $post->content }}</p>
 
                 <div class="d-flex align-items-center mt-3 mb-3">
-                    <form action="{{ route('posts.like', $post->post_id) }}" method="POST" class="me-2">
-                        @csrf
-                        <button type="submit"
-                            class="btn {{ $post->isLikedByUser() ? 'btn-danger' : 'btn-outline-danger' }}">
-                            <i class="fas fa-heart"></i>
-                            {{ $post->isLikedByUser() ? 'Unlike' : 'Like' }}
-                        </button>
-                    </form>
-                    <span>{{ $post->likesCount() }} likes</span>
+                    @livewire('like', ['post' => $post])
                 </div>
 
                 <div class="card shadow mt-4">

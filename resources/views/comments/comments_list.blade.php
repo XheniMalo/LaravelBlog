@@ -104,7 +104,6 @@ function initializeCommentActions() {
         $('#edit-form-' + commentId).hide();
     });
     
-    console.log('Comment actions initialized');
 }
 
 window.addEventListener('focus', function() {

@@ -10,6 +10,8 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\User;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Blade;
+use App\View\Components\Like;
 
 class AppServiceProvider extends ServiceProvider
 {
