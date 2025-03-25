@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -12,7 +11,8 @@ class AdminUsersService
 
     public function getUsersDataTable()
     {
-        $users = User::byRole('user')->get();
+        $users = User::with('roles')->get();
+
         return DataTables::of($users)
             ->addIndexColumn()
             ->make(true);
@@ -24,23 +24,27 @@ class AdminUsersService
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role_id' => $userRole = Role::where('name', 'user')->first()->id,
             'profession' => $data['profession'],
             'birthday' => $data['birthday'],
             'gender' => $data['gender'],
-        ]);
+        ])->assignRole('User');
     }
 
 
-    public function updateUser(User $user, array $data)
+    public function updateUser(User $user, array $data,  $role = null)
     {
-        return $user->update([
+        $user->update([
             'name' => $data['name'],
             'email' => $data['email'],
             'profession' => $data['profession'],
             'birthday' => $data['birthday'],
             'gender' => $data['gender'],
         ]);
+        if ($role && in_array($role, ['User', 'Writer'])) {
+            $user->syncRoles($role);
+        }
+    
+        return $user;
     }
 
     public function deleteUser(User $user)

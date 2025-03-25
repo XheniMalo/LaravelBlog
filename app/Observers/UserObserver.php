@@ -3,46 +3,32 @@
 namespace App\Observers;
 
 use App\Models\User;
+use App\Notifications\UserUpdatedNotification;
 
 class UserObserver
 {
-    /**
-     * Handle the User "created" event.
-     */
-    public function created(User $user): void
-    {
-        //
-    }
-
-    /**
-     * Handle the User "updated" event.
-     */
     public function updated(User $user): void
     {
-        //
-    }
+        $changed = [];
 
-    /**
-     * Handle the User "deleted" event.
-     */
-    public function deleted(User $user): void
-    {
-        //
-    }
+        foreach ($user->getDirty() as $field => $newValue) {
+            if ($field === 'password') {
+                continue;
+            }
 
-    /**
-     * Handle the User "restored" event.
-     */
-    public function restored(User $user): void
-    {
-        //
-    }
+            $changed[$field] = [
+                'from' => $user->getRawOriginal($field) ?: '(empty)',
+                'to' => $newValue ?: '(empty)',
+            ];
+        }
 
-    /**
-     * Handle the User "force deleted" event.
-     */
-    public function forceDeleted(User $user): void
-    {
-        //
+        if (!empty($changed)) {
+            $admins = User::role('admin')->get();
+
+           foreach($admins as $admin){
+            $admin->notify(new UserUpdatedNotification($user, $changed));
+           }
+        }
+
     }
 }

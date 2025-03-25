@@ -3,6 +3,7 @@
 @section('title', 'Create Post')
 
 @section('content')
+@can('create-post')
 <div class="container mt-4">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
@@ -35,4 +36,5 @@
         </div>
     </div>
 </div>
+@endcan
 @endsection

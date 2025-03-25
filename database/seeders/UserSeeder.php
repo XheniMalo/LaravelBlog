@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Faker\Factory as Faker;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -21,16 +19,16 @@ class UserSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 30; $i++) {
-            DB::table('users')->insert([
+        for ($i = 0; $i < 5; $i++) {
+            $user = User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
                 'password' => Hash::make('password'),
-                'role_id' => 2,
                 'profession' => $faker->jobTitle,
                 'birthday' => $faker->date(),
                 'gender' => $faker->randomElement(['male', 'female']),
             ]);
+            $user->assignRole('User');
         }
     }
 }

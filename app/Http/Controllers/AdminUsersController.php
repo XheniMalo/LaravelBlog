@@ -44,7 +44,8 @@ class AdminUsersController extends Controller
 
     public function update(User $user, UpdateUserRequest $request)
     {
-        return $this->adminUsersService->updateUser($user,$request->validated());
+        $role = $request->input('role');
+        return $this->adminUsersService->updateUser($user,$request->validated(), $role);
         
     }
 

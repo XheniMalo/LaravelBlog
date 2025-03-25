@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Observers\UserObserver;
 use App\Enums\Gender;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Spatie\Permission\Traits\HasRoles;
+
+#[ObservedBy([UserObserver::class])]
 
 class User extends Authenticatable implements CanResetPasswordContract
 {
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasRoles, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -20,17 +25,15 @@ class User extends Authenticatable implements CanResetPasswordContract
      * @var list<string>
      */
 
-
-
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role_id',
         'profession',
         'birthday',
         'gender'
     ];
+    protected $guard_name = 'web'; 
 
     /**
      * The attributes that should be hidden for serialization.
@@ -56,11 +59,6 @@ class User extends Authenticatable implements CanResetPasswordContract
         ];
     }
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
     public function profilePicture()
     {
         return $this->hasOne(ProfilePicture::class);
@@ -79,18 +77,6 @@ class User extends Authenticatable implements CanResetPasswordContract
     public function likes()
     {
         return $this->belongsToMany(Post::class, 'posts_likes', 'user_id', 'post_id');
-    }
-
-    public function hasRole($roleName)
-    {
-        return $this->role && $this->role->name === $roleName;
-    }
-
-    public function scopeByRole($query, $roleName)
-    {
-        return $query->whereHas('role', function ($query) use ($roleName) {
-            $query->where('name', $roleName);
-        });
     }
 
 }

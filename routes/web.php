@@ -12,15 +12,12 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\AdminCommentsController;
+use App\Models\User;
 
 
 Route::get('/', function () {
-
-
     return view('welcome');
 })->name('welcome');
-
-//routes qe po perdor pas instalimit te adminlte
 
 Auth::routes();
 Route::middleware('auth.custom')->group(function () {
@@ -60,9 +57,14 @@ Route::middleware('auth.custom')->group(function () {
     
     Route::delete('/admin/comment/{comment}', [AdminCommentsController::class, 'destroyComment'])->name('comment.destroy');
     Route::delete('/admin/reply/{comment}', [AdminCommentsController::class, 'destroyReply'])->name('reply.destroy');
-
-
 });
+
+
+// $user = User::find(391);
+// $roles = $user->getRoleNames();
+// $permssions = $user->getAllPermissions();
+
+// dd($roles);
 
 
 

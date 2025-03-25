@@ -47,12 +47,15 @@
                         <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link">Home</a>
                         </li>
+                        @can('create-post')
                         <li class="nav-item">
                             <a href="{{ route('posts.index') }}" class="nav-link">My Posts</a>
                         </li>
+                        
                         <li class="nav-item">
                             <a href="{{ route('posts.create') }}" class="nav-link">Add New Post</a>
                         </li>
+                        @endcan
                     </ul>
 
                     <ul class="navbar-nav">
@@ -66,6 +69,11 @@
                                     <a href="{{ route('profile.index') }}" class="dropdown-item">
                                         <i class="fas fa-user-circle me-2"></i> Profile
                                     </a>
+                                    @can('view-admin-profile')
+                                    <a href="{{ route('dashboard') }}" class="dropdown-item">
+                                        <i class="fas fa-tachometer-alt"> </i> Dashboard
+                                    </a>
+                                    @endcan
                                 </li>
                                 <li>
                                     <hr class="dropdown-divider">

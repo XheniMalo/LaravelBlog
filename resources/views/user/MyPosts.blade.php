@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'My Posts')
 @section('content')
+@can('view-post')
     <div class="container mt-4">
         <h2 class="mb-4 text-center">My Posts</h2>
         <div class="row">
@@ -36,4 +37,5 @@
             return confirm("Are you sure you want to delete this post?");
         }
     </script>
+@endcan
 @endsection

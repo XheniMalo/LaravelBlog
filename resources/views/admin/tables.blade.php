@@ -29,11 +29,13 @@
             <table id="myTable" class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Profession</th>
                         <th>Birthday</th>
                         <th>Gender</th>
+                        <th>Role</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -45,7 +47,7 @@
 
 
 
-<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+<div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -76,7 +78,15 @@
                         <label for="editUserGender" class="form-label">Gender</label>
                         <input type="name" class="form-control" id="editUserGender" required>
                     </div>
-                
+
+                    <div class="mb-3">
+                        <label for="editUserRole" class="form-label">Role</label>
+                        <select class="form-control" id="editUserRole" required>
+                            <option value="User">User</option>
+                            <option value="Writer">Writer</option>
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
             </div>
@@ -84,7 +94,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -110,17 +120,33 @@
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script type="text/javascript">
+
     $(document).ready(function () {
+        if ($.fn.DataTable.isDataTable('#myTable')) {
+            $('#myTable').DataTable().destroy();
+        }
+
         let table = $('#myTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('users.index') }}",
             columns: [
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'name', name: 'name' },
                 { data: 'email', name: 'email' },
-                { data: 'profession', name: 'profession'},
+                { data: 'profession', name: 'profession' },
                 { data: 'birthday', name: 'birthday' },
                 { data: 'gender', name: 'gender' },
+                {
+                    data: 'roles',
+                    name: 'roles',
+                    render: function (data) {
+                        if (data && data.length > 0) {
+                            return data.map(role => `${role.name}`).join(' ');
+                        }
+                        return '<span class="badge bg-secondary">No Role</span>';
+                    }
+                },
                 {
                     data: 'id',
                     name: 'actions',
@@ -128,17 +154,22 @@
                     searchable: false,
                     render: function (data) {
                         return `
-                            <button class="btn btn-sm btn-primary editBtn" data-id="${data}" data-bs-toggle="modal" data-bs-target="#editUserModal">
-                                <i class="fas fa-edit"> Edit</i>
-                            </button>
-                            <button class="btn btn-sm btn-danger deleteBtn" data-id="${data}" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                <i class="fas fa-trash"> Delete</i>
-                            </button>
-                        `;
+                        <button class="btn btn-sm btn-primary editBtn" data-id="${data}" data-bs-toggle="modal" data-bs-target="#editUserModal">
+                            <i class="fas fa-edit"> Edit</i>
+                        </button>
+                        <button class="btn btn-sm btn-danger deleteBtn" data-id="${data}" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="fas fa-trash"> Delete</i>
+                        </button>
+                    `;
                     }
                 }
-            ]
+            ],
+            error: function (xhr, error, code) {
+                console.error('Error:', xhr.responseText);
+            }
         });
+
+
 
         let deleteUserId;
         $(document).on('click', '.deleteBtn', function () {
@@ -173,6 +204,14 @@
                 $('#editUserProfession').val(user.profession);
                 $('#editUserBirthday').val(user.birthday);
                 $('#editUserGender').val(user.gender);
+
+                if (user.roles && user.roles.length > 0) {
+                    let roleNames = user.roles.map(role => role.name).join(', ');
+                    $('#editUserRole').val(roleNames);
+                } else {
+                    $('#editUserRole').val('No Role');
+                }
+                
             });
         });
 
@@ -189,7 +228,7 @@
                     profession: $('#editUserProfession').val(),
                     birthday: $('#editUserBirthday').val(),
                     gender: $('#editUserGender').val(),
-
+                    role: $('#editUserRole').val(),
                 },
                 success: function () {
                     $('#editUserModal').modal('hide');
@@ -200,6 +239,7 @@
                 }
             });
         });
+
     });
 </script>
 @stop

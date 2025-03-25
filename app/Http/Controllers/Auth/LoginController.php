@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -41,7 +39,7 @@ class LoginController extends Controller
         $this->middleware('auth')->only('logout');
     }
 
-     /**
+    /**
      * The user has been authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -49,13 +47,17 @@ class LoginController extends Controller
      * @return mixed
      */
 
+
+
     protected function authenticated(Request $request, $user)
     {
-        if ($user->hasRole('admin') || $user->role_id == 1) {
+
+        if ($user->hasRole('admin', 'web')) {
             return redirect()->route('dashboard');
+        } else {
+            return redirect()->route('home');
         }
-        
-        return redirect()->route('home');
+
     }
 
 }

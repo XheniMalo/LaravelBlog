@@ -315,24 +315,7 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
-        ],
-        // [
-        //     'text' => 'pages',
-        //     'url' => 'admin/pages',
-        //     'icon' => 'far fa-fw fa-file',
-        //     'label' => 4,
-        //     'label_color' => 'success',
-        // ],
-        // [
-        //     'text' => 'Posts',
-        //     'url' => 'admin/posts',
-        //     'icon' => 'far fa-fw fa-file',
-        //     'label_color' => 'success',
-        // ],
+
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
@@ -344,10 +327,10 @@ return [
             'url' => 'admin/security',
             'icon' => 'fas fa-fw fa-lock',
         ],
-        
+
         ['header' => 'Users'],
         [
-            'text' => 'Registered Users',
+            'text' => 'Users',
             'url' => 'admin/users',
             'icon' => 'fas fa-table',
         ],
@@ -362,6 +345,13 @@ return [
             'text' => 'View posts',
             'url' => 'admin/post',
             'icon' => 'far fa-fw fa-file',
+        ],
+
+        ['header' => 'Roles'],
+        [
+            'text' => 'Continue as a Writer',
+            'url' => 'home',
+            'icon' => 'fas fa-fw fa-user',
         ],
     ],
 
