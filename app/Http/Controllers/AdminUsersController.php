@@ -7,7 +7,9 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Excel as ExcelExcel;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminUsersController extends Controller
 {
@@ -39,6 +41,7 @@ class AdminUsersController extends Controller
 
     public function edit(User $user)
     {
+        $user = $user->load('roles');
         return response()->json($user);
     }
 
@@ -54,5 +57,10 @@ class AdminUsersController extends Controller
         $this->adminUsersService->deleteUser($user);
         
         return response()->json(['message' => 'User deleted successfully']);
+    }
+
+    public function download()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

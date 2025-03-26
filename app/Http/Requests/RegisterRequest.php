@@ -26,9 +26,9 @@ class RegisterRequest extends FormRequest
             'name' => 'required|string|min:2|max:255|regex:/^[\pL\s\-]+$/u',
             'email' => 'required|email|max:255|unique:users,email,',
             'password' => 'required|min:8',
-            'profession' => 'nullable|string|max:255',
-            'birthday' => 'nullable|date',
-            'gender' => 'nullable|in:male,female',
+            'profession' => 'required|string|max:255',
+            'birthday' => 'required|date',
+            'gender' => 'required|in:male,female',
 
         ];
     }

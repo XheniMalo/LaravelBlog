@@ -47,14 +47,14 @@
                         <li class="nav-item">
                             <a href="{{ route('home') }}" class="nav-link">Home</a>
                         </li>
-                        @can('create-post')
-                        <li class="nav-item">
-                            <a href="{{ route('posts.index') }}" class="nav-link">My Posts</a>
-                        </li>
-                        
-                        <li class="nav-item">
-                            <a href="{{ route('posts.create') }}" class="nav-link">Add New Post</a>
-                        </li>
+                        @can('manage-post')
+                            <li class="nav-item">
+                                <a href="{{ route('posts.index') }}" class="nav-link">My Posts</a>
+                            </li>
+                            
+                            <li class="nav-item">
+                                <a href="{{ route('posts.create') }}" class="nav-link">Add New Post</a>
+                            </li>
                         @endcan
                     </ul>
 
@@ -71,7 +71,7 @@
                                     </a>
                                     @can('view-admin-profile')
                                     <a href="{{ route('dashboard') }}" class="dropdown-item">
-                                        <i class="fas fa-tachometer-alt"> </i> Dashboard
+                                        <i class="fas fa-tachometer-alt"> </i> Admin Dashboard
                                     </a>
                                     @endcan
                                 </li>

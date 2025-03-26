@@ -10,7 +10,6 @@ use App\Http\Controllers\UserPostController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\LikeController;
 use App\Http\Controllers\AdminCommentsController;
 use App\Models\User;
 
@@ -57,6 +56,8 @@ Route::middleware('auth.custom')->group(function () {
     
     Route::delete('/admin/comment/{comment}', [AdminCommentsController::class, 'destroyComment'])->name('comment.destroy');
     Route::delete('/admin/reply/{comment}', [AdminCommentsController::class, 'destroyReply'])->name('reply.destroy');
+
+    Route::get('/download', [AdminUsersController::class, 'download'])->name('download');
 });
 
 

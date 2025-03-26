@@ -8,6 +8,7 @@
 @section('css')
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.bootstrap5.min.css">
 @stop
 
 @section('content')
@@ -26,10 +27,14 @@
                         aria-label="Close"></button>
                 </div>
             </div>
+            <div class="card-body">
+                <a href="{{ route('download') }}" class="btn btn-primary mb-3">Download Data</a>
+            </div>
+
             <table id="myTable" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th>No.</th>
                         <th>Name</th>
                         <th>Email</th>
                         <th>Profession</th>
@@ -44,8 +49,6 @@
         </div>
     </div>
 </div>
-
-
 
 <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel">
     <div class="modal-dialog">
@@ -82,8 +85,9 @@
                     <div class="mb-3">
                         <label for="editUserRole" class="form-label">Role</label>
                         <select class="form-control" id="editUserRole" required>
-                            <option value="User">User</option>
                             <option value="Writer">Writer</option>
+                            <option value="User">User</option>
+
                         </select>
                     </div>
 
@@ -118,6 +122,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
 
 <script type="text/javascript">
 
@@ -130,6 +135,7 @@
             processing: true,
             serverSide: true,
             ajax: "{{ route('users.index') }}",
+            responsive: true,
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'name', name: 'name' },
@@ -138,13 +144,11 @@
                 { data: 'birthday', name: 'birthday' },
                 { data: 'gender', name: 'gender' },
                 {
-                    data: 'roles',
-                    name: 'roles',
+                    data: 'roles', name: 'roles',
                     render: function (data) {
                         if (data && data.length > 0) {
-                            return data.map(role => `${role.name}`).join(' ');
+                            return data.map(role => `${role.name}`).join(' | ');
                         }
-                        return '<span class="badge bg-secondary">No Role</span>';
                     }
                 },
                 {
@@ -168,8 +172,6 @@
                 console.error('Error:', xhr.responseText);
             }
         });
-
-
 
         let deleteUserId;
         $(document).on('click', '.deleteBtn', function () {
@@ -205,41 +207,52 @@
                 $('#editUserBirthday').val(user.birthday);
                 $('#editUserGender').val(user.gender);
 
+
                 if (user.roles && user.roles.length > 0) {
-                    let roleNames = user.roles.map(role => role.name).join(', ');
-                    $('#editUserRole').val(roleNames);
+                    let roles = user.roles.map(role => role.name);
+
+                    if (roles.includes('writer')) {
+                        $('#editUserRole').val('Writer');
+                    } else if (roles.includes('user')) {
+                        $('#editUserRole').val('User');
+                    } else {
+                        $('#editUserRole').val('User');
+                    }
                 } else {
-                    $('#editUserRole').val('No Role');
+                    console.log('No roles found for this user');
                 }
-                
+
+                console.log('full user object:', user);
+                console.log('role object:', user.roles);
+
+
+            });
+
+            $('#editUserForm').submit(function (e) {
+                e.preventDefault();
+                let userId = $('#editUserId').val();
+                $.ajax({
+                    url: `/admin/users/${userId}`,
+                    type: 'PUT',
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+                    data: {
+                        name: $('#editUserName').val(),
+                        email: $('#editUserEmail').val(),
+                        profession: $('#editUserProfession').val(),
+                        birthday: $('#editUserBirthday').val(),
+                        gender: $('#editUserGender').val(),
+                        role: $('#editUserRole').val(),
+                    },
+                    success: function () {
+                        $('#editUserModal').modal('hide');
+                        table.ajax.reload();
+                    },
+                    error: function () {
+                        alert('Error updating user.');
+                    }
+                });
             });
         });
-
-        $('#editUserForm').submit(function (e) {
-            e.preventDefault();
-            let userId = $('#editUserId').val();
-            $.ajax({
-                url: `/admin/users/${userId}`,
-                type: 'PUT',
-                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' },
-                data: {
-                    name: $('#editUserName').val(),
-                    email: $('#editUserEmail').val(),
-                    profession: $('#editUserProfession').val(),
-                    birthday: $('#editUserBirthday').val(),
-                    gender: $('#editUserGender').val(),
-                    role: $('#editUserRole').val(),
-                },
-                success: function () {
-                    $('#editUserModal').modal('hide');
-                    table.ajax.reload();
-                },
-                error: function () {
-                    alert('Error updating user.');
-                }
-            });
-        });
-
     });
 </script>
 @stop

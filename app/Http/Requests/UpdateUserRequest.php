@@ -29,6 +29,7 @@ class UpdateUserRequest extends FormRequest
             'birthday' => ['required', 'date'], 
             'profession' => ['required', 'string', 'max:255'],  
             'gender' => ['required', 'in:male,female'],
+            'role' => 'required|string|in:User,Writer',
         ];
     }
 }

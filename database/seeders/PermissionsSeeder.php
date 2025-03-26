@@ -17,13 +17,13 @@ class PermissionsSeeder extends Seeder
 
         $permissions = [
             'view-post',
-            'create-post',
-            'update-post',
-            'delete-post',
+            'manage-post',
+
             'create-likes',
             'create-comments',
             'update-comments',
             'delete-comments',
+            
             'view-profile',
             'update-profile',
             'update-password',
@@ -75,9 +75,7 @@ class PermissionsSeeder extends Seeder
                 'update-profile',
                 'update-password',
                 'view-likes',
-                'create-post',
-                'update-post',
-                'delete-post',
+                'manage-post'
             ]);
         }
 

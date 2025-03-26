@@ -40,10 +40,9 @@ class AdminUsersService
             'birthday' => $data['birthday'],
             'gender' => $data['gender'],
         ]);
-        if ($role && in_array($role, ['User', 'Writer'])) {
+        if (!empty($role)) {
             $user->syncRoles($role);
         }
-    
         return $user;
     }
 
