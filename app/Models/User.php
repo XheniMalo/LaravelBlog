@@ -8,16 +8,15 @@ use App\Enums\Gender;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Sanctum\HasApiTokens;
 
 #[ObservedBy([UserObserver::class])]
 
-class User extends Authenticatable implements CanResetPasswordContract
+class User extends Authenticatable
 {
-
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasRoles, HasFactory, Notifiable;
+    use HasApiTokens, HasRoles, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -33,7 +32,7 @@ class User extends Authenticatable implements CanResetPasswordContract
         'birthday',
         'gender'
     ];
-    protected $guard_name = 'web'; 
+    protected $guard_name = 'web';
 
     /**
      * The attributes that should be hidden for serialization.

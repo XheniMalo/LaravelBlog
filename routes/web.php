@@ -39,7 +39,7 @@ Route::middleware('auth.custom')->group(function () {
     });
 
     Route::prefix('users')->group(function () {
-        Route::resource('/posts', UserPostController::class)->except('edit');
+        Route::resource('/posts', UserPostController::class)->except('edit')->middleware('can:manage-post');
         Route::delete('/posts/delete/{postImage}', [UserPostController::class, 'destroyImage'])->name('images.destroy');
 
         Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
