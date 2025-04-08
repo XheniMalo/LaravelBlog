@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminCommentsController;
+use App\Http\Controllers\DonationController;
 use App\Models\User;
 
 
@@ -58,6 +59,10 @@ Route::middleware('auth.custom')->group(function () {
     Route::delete('/admin/reply/{comment}', [AdminCommentsController::class, 'destroyReply'])->name('reply.destroy');
 
     Route::get('/download', [AdminUsersController::class, 'download'])->name('download');
+
+    Route::post('/donate/checkout', [DonationController::class, 'checkout'])->name('donate.checkout');
+    Route::get('/donate/success', [DonationController::class, 'success'])->name('donate.success');
+    Route::get('/donate', function () {return view('donation.index');})->name('donate.index');
 });
 
 

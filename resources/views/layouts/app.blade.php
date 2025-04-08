@@ -56,6 +56,9 @@
                                 <a href="{{ route('posts.create') }}" class="nav-link">Add New Post</a>
                             </li>
                         @endcan
+                        <li class="nav-item">
+                                <a href="{{ route('donate.index') }}" class="nav-link">Donate</a>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav">
