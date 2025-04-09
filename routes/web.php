@@ -13,6 +13,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AdminCommentsController;
 use App\Http\Controllers\DonationController;
 use App\Models\User;
+use App\Http\Controllers\StripeWebhookController;
 
 
 Route::get('/', function () {
@@ -63,7 +64,10 @@ Route::middleware('auth.custom')->group(function () {
     Route::post('/donate/checkout', [DonationController::class, 'checkout'])->name('donate.checkout');
     Route::get('/donate/success', [DonationController::class, 'success'])->name('donate.success');
     Route::get('/donate', function () {return view('donation.index');})->name('donate.index');
+
+    
 });
+Route::post('/stripe/webhook', StripeWebhookController::class)->name('stripe.webhook');
 
 
 // $user = User::find(391);

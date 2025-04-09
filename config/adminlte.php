@@ -305,6 +305,25 @@ return [
             'text' => 'search',
             'topnav_right' => false,
         ],
+
+        [
+            'text' => 'Language',
+            'topnav_right' => true,
+            'icon' => 'flag-icon flag-icon-us',
+            'submenu' => [
+                [
+                    'text'=>'English',
+                    'icon' => 'flag-icon flag-icon-us',
+                    'url'=> '#'
+                ],
+                [
+                    'text'=>'Albanian',
+                    'icon' => 'flag-icon flag-icon-al',
+                    'url'=> '#'
+                ]
+            ]
+        ],
+
         [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,

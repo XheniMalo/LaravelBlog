@@ -35,22 +35,28 @@ class DonationController extends Controller
         }
     
         Stripe::setApiKey(config('services.stripe.secret'));
-    
+
+        $amount = $request->input('amount');
+
         $checkoutSession = Session::create([
-            'customer_email' => $user->email,
-            'payment_method_types' => ['card'],
             'line_items' => [[
                 'price_data' => [
                     'currency' => 'usd',
-                    'product_data' => ['name' => 'Blog Donation'],
+                    'product_data' => [
+                        'name' => 'One-Time Donation',
+                    ],
                     'unit_amount' => $amount,
                 ],
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
+            'metadata' => [
+                'user_id' => Auth::id(), 
+            ],
+            'customer_email' => $user->email,
             'success_url' => route('donate.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('donate.index'),
         ]);
+    
     
         return redirect($checkoutSession->url);
     }
