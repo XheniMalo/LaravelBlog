@@ -4,10 +4,10 @@
 <div class="container mt-4">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Support Our Blog</h4>
+            <h4 class="mb-0">{{ __('messages.support_our_blog') }}</h4>
         </div>
         <div class="card-body text-center">
-            <p class="mb-4">Choose an amount or enter a custom one to support our blog!</p>
+            <p class="mb-4">{{ __('messages.choose_amount') }}</p>
 
             <form action="{{ route('donate.checkout') }}" method="POST" class="d-inline-block">
                 @csrf
@@ -20,14 +20,14 @@
                     @endforeach
                 </div>
 
-                <div class="my-3">or</div>
+                <div class="my-3">{{ __('messages.or') }}</div>
 
                 <div class="input-group mb-3 w-50 mx-auto">
                     <span class="input-group-text">$</span>
                     <input type="number" class="form-control" name="custom_amount" min="1" step="0.01">
                 </div>
 
-                <button type="submit" class="btn btn-success">Donate Custom Amount</button>
+                <button type="submit" class="btn btn-success">{{ __('messages.donate_custom_amount') }}</button>
             </form>
         </div>
     </div>

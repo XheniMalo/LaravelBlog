@@ -9,19 +9,19 @@
                     <p>{{ $comment->body }}</p>
 
                     <button class="btn btn-sm btn-light reply-btn" data-comment-id="{{ $comment->id }}">
-                        Reply
+                        {{ __('messages.reply') }}
                     </button>
                     
                     @if(auth()->id() == $comment->user_id || auth()->id() == $comment->post->user_id)
                         <button class="btn btn-sm btn-light edit-comment-btn" data-comment-id="{{ $comment->id }}"
                             data-comment-body="{{ $comment->body }}">
-                            Edit
+                            {{ __('messages.edit') }}
                         </button>
                         <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-light">
-                                <i class="fas fa-trash-alt"></i>
+                                <i class="fas fa-trash-alt"></i> {{ __('messages.delete') }}
                             </button>
                         </form>
                     @endif
@@ -32,12 +32,12 @@
                             <input type="hidden" name="post_id" value="{{ $comment->post_id }}">
                             <input type="hidden" name="parent_id" value="{{ $comment->id }}">
                             <div class="mb-2">
-                                <textarea class="form-control" name="body" rows="2" placeholder="Write a reply..."
+                                <textarea class="form-control" name="body" rows="2" placeholder="{{ __('messages.write_reply') }}"
                                     required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-primary">Submit Reply</button>
+                            <button type="submit" class="btn btn-sm btn-primary">{{ __('messages.submit_reply') }}</button>
                             <button type="button" class="btn btn-sm btn-light cancel-reply"
-                                data-comment-id="{{ $comment->id }}">Cancel</button>
+                                data-comment-id="{{ $comment->id }}">{{ __('messages.cancel_reply') }}</button>
                         </form>
                     </div>
 
@@ -49,9 +49,9 @@
                             <div class="mb-2">
                                 <textarea class="form-control" name="body" rows="2" required>{{ $comment->body }}</textarea>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                            <button type="submit" class="btn btn-sm btn-primary">{{ __('messages.update') }}</button>
                             <button type="button" class="btn btn-sm btn-light cancel-edit"
-                                data-comment-id="{{ $comment->id }}">Cancel</button>
+                                data-comment-id="{{ $comment->id }}">{{ __('messages.cancel_edit') }}</button>
                         </form>
                     </div>
 
@@ -65,7 +65,7 @@
         </div>
     @endforeach
 @else
-    <p class="text-muted">No comments yet.</p>
+    <p class="text-muted">{{ __('messages.no_comments') }}</p>
 @endif
 
 <script>

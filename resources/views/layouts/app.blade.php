@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
@@ -45,19 +44,19 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a href="{{ route('home') }}" class="nav-link">Home</a>
+                            <a href="{{ route('home') }}" class="nav-link">{{ __('messages.home') }}</a>
                         </li>
                         @can('manage-post')
                             <li class="nav-item">
-                                <a href="{{ route('posts.index') }}" class="nav-link">My Posts</a>
+                                <a href="{{ route('posts.index') }}" class="nav-link">{{ __('messages.my_posts') }}</a>
                             </li>
-                            
+
                             <li class="nav-item">
-                                <a href="{{ route('posts.create') }}" class="nav-link">Add New Post</a>
+                                <a href="{{ route('posts.create') }}" class="nav-link">{{ __('messages.add_new_post') }}</a>
                             </li>
                         @endcan
                         <li class="nav-item">
-                                <a href="{{ route('donate.index') }}" class="nav-link">Donate</a>
+                            <a href="{{ route('donate.index') }}" class="nav-link">{{ __('messages.donate') }}</a>
                         </li>
                     </ul>
 
@@ -70,12 +69,12 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                 <li>
                                     <a href="{{ route('profile.index') }}" class="dropdown-item">
-                                        <i class="fas fa-user-circle me-2"></i> Profile
+                                        <i class="fas fa-user-circle me-2"></i> {{ __('messages.profile') }}
                                     </a>
                                     @can('view-admin-profile')
-                                    <a href="{{ route('dashboard') }}" class="dropdown-item">
-                                        <i class="fas fa-tachometer-alt"> </i> Admin Dashboard
-                                    </a>
+                                        <a href="{{ route('dashboard') }}" class="dropdown-item">
+                                            <i class="fas fa-tachometer-alt"> </i> {{ __('messages.admin_dashboard') }}
+                                        </a>
                                     @endcan
                                 </li>
                                 <li>
@@ -84,11 +83,28 @@
                                 <li>
                                     <a href="{{ route('logout') }}" class="dropdown-item text-danger"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                        <i class="fas fa-sign-out-alt me-2"></i> {{ __('messages.logout') }}
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="languageDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ strtoupper(app()->getLocale()) }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                <li>
+                                    <a href="{{ route('language.switch', 'en') }}"
+                                        class="dropdown-item">{{ __('English') }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('language.switch', 'al') }}"
+                                        class="dropdown-item">{{ __('Albanian') }}</a>
                                 </li>
                             </ul>
                         </li>
@@ -99,8 +115,6 @@
 
         <main class="py-4">
             @yield('content')
-
-
         </main>
     </div>
 </body>

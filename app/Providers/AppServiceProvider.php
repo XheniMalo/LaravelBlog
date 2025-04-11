@@ -12,6 +12,8 @@ use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Blade;
 use App\View\Components\Like;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\App;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -51,5 +53,9 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Model::preventLazyLoading();
+
+        if (Session::has('locale')) {
+            App::setLocale(Session::get('locale'));
+        }
     }
 }

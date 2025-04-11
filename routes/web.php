@@ -14,6 +14,8 @@ use App\Http\Controllers\AdminCommentsController;
 use App\Http\Controllers\DonationController;
 use App\Models\User;
 use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\AdminDonationsController;
+use App\Http\Controllers\LanguageController;
 
 
 Route::get('/', function () {
@@ -30,6 +32,7 @@ Route::middleware('auth.custom')->group(function () {
 
     Route::prefix('admin')->group(function () {
         Route::resource('/users', AdminUsersController::class)->except(['show']);
+        Route::get('/donations', [AdminDonationsController::class, 'index'])->name('donations.index');
 
         Route::get('/profile', [AdminProfileController::class, 'index'])->name('adminprofile.index');
         Route::put('/profile/{user}', [AdminProfileController::class, 'updateProfile'])->name('adminprofile.update');
@@ -64,10 +67,13 @@ Route::middleware('auth.custom')->group(function () {
     Route::post('/donate/checkout', [DonationController::class, 'checkout'])->name('donate.checkout');
     Route::get('/donate/success', [DonationController::class, 'success'])->name('donate.success');
     Route::get('/donate', function () {return view('donation.index');})->name('donate.index');
+    
+    Route::get('/lang/{locale}', [LanguageController::class, 'changeLanguage'])->name('language.switch');
 
     
 });
 Route::post('/stripe/webhook', StripeWebhookController::class)->name('stripe.webhook');
+
 
 
 // $user = User::find(391);

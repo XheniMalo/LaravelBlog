@@ -298,81 +298,91 @@ return [
     |
     */
 
-    'menu' => [
-        // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => false,
-        ],
-
-        [
-            'text' => 'Language',
-            'topnav_right' => true,
-            'icon' => 'flag-icon flag-icon-us',
-            'submenu' => [
-                [
-                    'text'=>'English',
-                    'icon' => 'flag-icon flag-icon-us',
-                    'url'=> '#'
-                ],
-                [
-                    'text'=>'Albanian',
-                    'icon' => 'flag-icon flag-icon-al',
-                    'url'=> '#'
-                ]
-            ]
-        ],
-
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
-
-        // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],
-
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/profile',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/security',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-
-        ['header' => 'Users'],
-        [
-            'text' => 'Users',
-            'url' => 'admin/users',
-            'icon' => 'fas fa-table',
-        ],
-        ['header' => 'New User'],
-        [
-            'text' => 'Create a new user',
-            'url' => 'admin/users/create',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        ['header' => 'Posts'],
-        [
-            'text' => 'View posts',
-            'url' => 'admin/post',
-            'icon' => 'far fa-fw fa-file',
-        ],
-
-        ['header' => 'Roles'],
-        [
-            'text' => 'Continue as a Writer',
-            'url' => 'home',
-            'icon' => 'fas fa-fw fa-user',
-        ],
+'menu' => [
+    // Navbar items:
+    [
+        'type' => 'navbar-search',
+        'text' => 'search',
+        'topnav_right' => false,
     ],
+
+    [
+        'text' => 'language',
+        'topnav_right' => true,
+        'icon' => 'fas fa-globe',
+        'submenu' => [
+            [
+                'text'=>'english',
+                'icon' => 'flag-icon flag-icon-us',
+                'url'=> '/lang/en'
+            ],
+            [
+                'text'=>'albanian',
+                'icon' => 'flag-icon flag-icon-al',
+                'url'=> '/lang/al'
+            ]
+        ]
+    ],
+
+    [
+        'type' => 'fullscreen-widget',
+        'topnav_right' => true,
+    ],
+
+    // Sidebar items:
+    [
+        'type' => 'sidebar-menu-search',
+        'text' => 'search',
+    ],
+
+    ['header' => 'account_settings'],
+    [
+        'text' => 'profile',
+        'url' => 'admin/profile',
+        'icon' => 'fas fa-fw fa-user',
+    ],
+    [
+        'text' => 'change_password',
+        'url' => 'admin/security',
+        'icon' => 'fas fa-fw fa-lock',
+    ],
+
+    ['header' => 'users'],
+    [
+        'text' => 'users',
+        'url' => 'admin/users',
+        'icon' => 'fas fa-table',
+    ],
+    
+    ['header' => 'donations'],
+    [
+        'text' => 'donations',
+        'url' => 'admin/donations',
+        'icon' => 'fas fa-donate',
+    ],
+    
+    ['header' => 'new_user'],
+    [
+        'text' => 'create_user',
+        'url' => 'admin/users/create',
+        'icon' => 'fas fa-fw fa-user',
+    ],
+    
+    ['header' => 'posts'],
+    [
+        'text' => 'view_posts',
+        'url' => 'admin/post',
+        'icon' => 'far fa-fw fa-file',
+    ],
+
+    ['header' => 'roles'],
+    [
+        'text' => 'continue_writer',
+        'url' => 'home',
+        'icon' => 'fas fa-fw fa-user',
+    ],
+],
+
 
     /*
     |--------------------------------------------------------------------------
