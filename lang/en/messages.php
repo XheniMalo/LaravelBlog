@@ -7,8 +7,8 @@ return [
     'profile' => 'Profile',
     'admin_dashboard' => 'Admin Dashboard',
     'logout' => 'Logout',
-    'english' => 'English', 
-    'albanian' => 'Albanian', 
+    'english' => 'English',
+    'albanian' => 'Albanian',
     'post_image' => 'Post Image',
     'no_image' => 'No Image Available',
     'by' => 'By',
@@ -81,10 +81,12 @@ return [
     'role' => 'Role',
     'actions' => 'Actions',
     'edit_user' => 'Edit User',
-    'confirm_deletion' => 'Confirm Deletion',
-    'are_you_sure_delete' => 'Are you sure you want to delete this user?',
+    'delete_user_confirmation' => 'Confirm Deletion',
+    'delete_user' => 'Are you sure you want to delete this user?',
     'error_deleting_user' => 'Error deleting user.',
     'error_updating_user' => 'Error updating user.',
+    'user_updated_successfully' => 'User updated successfully!',
+    
     'writer' => 'Writer',
     'user' => 'User',
 
@@ -107,4 +109,19 @@ return [
     'edit_post' => 'Edit Post',
     'delete_image' => 'Delete Image',
     'update_user' => 'Update User',
+
+    'edit_user_title' => 'Edit User - ATLAS Blog',
+    'edit_user_header' => 'Edit User',
+    'edit_user_card_title' => 'Edit User',
+    'update_user_error' => 'Error updating user.',
+
+    'name_label' => 'Name',
+    'email_label' => 'Email',
+    'new_password_label' => 'New Password (optional)',
+    'confirm_password_label' => 'Confirm Password',
+
+    'update_user_button' => 'Update User',
+    'cancel_button' => 'Cancel',
+    'male' => 'Male',
+    'female' => 'Female',
 ];

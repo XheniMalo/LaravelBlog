@@ -80,10 +80,11 @@ return [
     'role' => 'Roli',
     'actions' => 'Veprimet',
     'edit_user' => 'Ndrysho Përdoruesin',
-    'confirm_deletion' => 'Konfirmo Fshirjen',
-    'are_you_sure_delete' => 'A jeni të sigurt që dëshironi të fshini këtë përdorues?',
+    'delete_user_confirmation' => 'Konfirmo Fshirjen',
+    'delete_user' => 'A jeni të sigurt që dëshironi të fshini këtë përdorues?',
     'error_deleting_user' => 'Gabim gjatë fshirjes së përdoruesit.',
     'error_updating_user' => 'Gabim gjatë përditësimit të përdoruesit.',
+    'user_updated_successfully' => 'Përdoruesi u përditësua me sukses!',
     'writer' => 'Shkrimtar',
     'user' => 'Përdorues',
 
@@ -105,5 +106,18 @@ return [
     'edit_post' => 'Redakto Postimin',
     'delete_image' => 'Fshi Imazhin',
     'update_user' => 'Përditëso Përdoruesin',
+    'edit_user_title' => 'Ndrysho Përdoruesin - ATLAS Blog',
+    'edit_user_header' => 'Ndrysho Përdoruesin',
+    'edit_user_card_title' => 'Ndrysho Përdoruesin',
+    'update_user_error' => 'Gabim gjatë përditësimit të përdoruesit.',
 
+    'name_label' => 'Emri',
+    'email_label' => 'Email-i',
+    'new_password_label' => 'Fjalëkalimi i Ri (opsional)',
+    'confirm_password_label' => 'Konfirmo Fjalëkalimin',
+
+    'update_user_button' => 'Përditëso Përdoruesin',
+    'cancel_button' => 'Anulo',
+    'male' => 'Mashkull',
+    'female' => 'Femër',
 ];

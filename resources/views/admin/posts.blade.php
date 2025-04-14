@@ -2,7 +2,7 @@
 @section('title', 'User Posts - ATLAS Blog')
 
 @section('content_header')
-<h1>All Posts</h1>
+<h1>{{ __('messages.all_posts') }}</h1>
 @stop
 
 @section('css')
@@ -28,17 +28,17 @@
             </div>
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">All Posts</h3>
+                    <h3 class="card-title">{{ __('messages.all_posts') }}</h3>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table" id="postsTable">
                             <thead>
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Content</th>
-                                    <th>User</th>
-                                    <th>Actions</th>
+                                    <th>{{ __('messages.title') }}</th>
+                                    <th>{{ __('messages.content') }}</th>
+                                    <th>{{ __('messages.user') }}</th>
+                                    <th>{{ __('messages.actions') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,16 +56,16 @@
                                         <td>
                                             <a href="{{ route('post.edit', $post->post_id) }}"
                                                 class="btn btn-sm btn-primary">
-                                                <i class="fas fa-edit"></i> Edit
+                                                <i class="fas fa-edit"></i>
                                             </a>
                                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#likesModal-{{ $post->post_id }}">
-                                                <i class="fas fa-heart"></i> Likes
+                                                <i class="fas fa-heart"></i>
                                                 <span class="badge bg-light text-dark">{{ $post->likes->count() }}</span>
                                             </button>
                                             <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#commentsModal-{{ $post->post_id }}">
-                                                <i class="fas fa-comment"></i> Comments
+                                                <i class="fas fa-comment"></i>
                                                 <span class="badge bg-light text-dark">{{ $post->comments->count() }}</span>
                                             </button>
                                             <button class="btn btn-sm btn-danger deleteBtn" data-id="{{ $post->post_id }}"
@@ -108,10 +108,10 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
